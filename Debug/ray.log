@@ -1,21 +1,8 @@
 ﻿  RayTracer.cpp
 c:\users\feng8\documents\github\graphics_project3\src\fileio\parse.h(180): warning C4018: '<': signed/unsigned mismatch
-  Box.cpp
-  Cone.cpp
-  Cylinder.cpp
-  Sphere.cpp
-  Square.cpp
-  trimesh.cpp
-c:\users\feng8\documents\github\graphics_project3\src\sceneobjects\trimesh.cpp(91): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\feng8\documents\github\graphics_project3\src\sceneobjects\trimesh.cpp(102): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  read.cpp
-c:\users\feng8\documents\github\graphics_project3\src\fileio\parse.h(180): warning C4018: '<': signed/unsigned mismatch
+c:\users\feng8\documents\github\graphics_project3\src\raytracer.cpp(165): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\feng8\documents\github\graphics_project3\src\raytracer.cpp(281): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   main.cpp
-  camera.cpp
-  light.cpp
-c:\users\feng8\documents\github\graphics_project3\src\scene\light.cpp(42): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-  material.cpp
-  ray.cpp
   scene.cpp
   TraceGLWindow.cpp
   TraceUI.cpp
@@ -23,10 +10,8 @@ c:\users\feng8\documents\github\graphics_project3\src\ui\traceui.cpp(34): warnin
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
 c:\users\feng8\documents\github\graphics_project3\src\ui\traceui.cpp(37): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
-c:\users\feng8\documents\github\graphics_project3\src\ui\traceui.cpp(160): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\feng8\documents\github\graphics_project3\src\ui\traceui.cpp(175): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
-  vecmath.cpp
   Generating Code...
-c:\users\feng8\documents\github\graphics_project3\src\raytracer.cpp(51): warning C4715: 'RayTracer::traceRay': not all control paths return a value
   ray.vcxproj -> C:\Users\feng8\Documents\GitHub\graphics_project3\.\Debug\ray.exe
   ray.vcxproj -> .\Debug/ray.pdb (Full PDB)

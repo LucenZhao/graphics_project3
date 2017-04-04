@@ -7,9 +7,9 @@ In many cases, the material in the Foley, et al. book goes into more depth on a 
 
 Remember that you'll need to establish to our satisfaction that you've implemented the extension! You should have test cases that clearly demonstrate the effect of the code you've added to the ray tracer. Sometimes different extensions can interact, making it hard to tell how each contributed to the final image, so it's also helpful (that is, necessary!) to add controls to selectively enable and disable your extensions.
 
-* [ ] Implement an adaptive termination criterion for tracing rays, based on ray contribution.  Control the adaptation  threshold with a slider.
+* [x]  (Fengyee) Implement an adaptive termination criterion for tracing rays, based on ray contribution. Control the adaptation threshold with a slider.
 
-    - [ ] Implement antialiasing by supersampling and averaging down.  You must provide a slider that indicates the number of sub-pixel samples being used (e.g., something in the range 1-5 indicating 1x1, 2x2, ... 5x5 supersampling). This whistle upgrades to a bell if you implement the first stage of distribution ray tracing by jittering the sub-pixel samples.  The noise introduced by jittering should be evident when casting 1 ray per pixel.
+    - [x]  (Fengyee) Implement antialiasing by supersampling and averaging down.  You must provide a slider that indicates the number of sub-pixel samples being used (e.g., something in the range 1-5 indicating 1x1, 2x2, ... 5x5 supersampling). This whistle upgrades to a bell if you implement the first stage of distribution ray tracing by jittering the sub-pixel samples.  The noise introduced by jittering should be evident when casting 1 ray per pixel.
 
 * [ ] Implement spot lights.
 

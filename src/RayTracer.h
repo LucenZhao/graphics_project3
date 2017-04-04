@@ -16,6 +16,7 @@ public:
     ~RayTracer();
 
     vec3f trace( Scene *scene, double x, double y );
+	vec3f trace(Scene *scene, double x, double y, int depth);
 	vec3f traceRay( Scene *scene, const ray& r, const vec3f& thresh, int depth );
 
 	void setTraceUI(TraceUI* ui) { m_pUI = ui; }
@@ -24,17 +25,25 @@ public:
 	void traceSetup( int w, int h );
 	void traceLines( int start = 0, int stop = 10000000 );
 	void tracePixel( int i, int j );
+	void pretracing();
 
 	bool loadScene( char* fn );
 
 	bool sceneLoaded();
 
 private:
+	bool		distReflection;
+	bool		distRefraction;
+	double		distSize;
+	int			distRays;
+	double		distStep;
+
 	unsigned char *buffer;
 	int buffer_width, buffer_height;
 	int bufferSize;
 	Scene *scene;
 
+	vec3f *pretracing_buffer;
 	TraceUI* m_pUI;
 	bool m_bSceneLoaded;
 };
