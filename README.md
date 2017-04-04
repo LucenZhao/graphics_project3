@@ -11,9 +11,9 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
     - [x]  (Fengyee) Implement antialiasing by supersampling and averaging down.  You must provide a slider that indicates the number of sub-pixel samples being used (e.g., something in the range 1-5 indicating 1x1, 2x2, ... 5x5 supersampling). This whistle upgrades to a bell if you implement the first stage of distribution ray tracing by jittering the sub-pixel samples.  The noise introduced by jittering should be evident when casting 1 ray per pixel.
 
-* [ ] Implement spot lights.
+* [x]  (Fengyee) Implement spot lights.
 
-    - [ ] Add a menu option that lets you specify a background image to replace the environment's ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.
+    - [ ]  (Fengyee) Add a menu option that lets you specify a background image to replace the environment's ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.
 
 * [ ] Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.
 

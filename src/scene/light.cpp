@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include "light.h"
@@ -71,4 +72,39 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 	}
 
     return vec3f(1,1,1);
+}
+
+double SpotLight::distanceAttenuation(const vec3f& P) const
+{
+	return 1.0;
+}
+
+vec3f SpotLight::getDirection(const vec3f& P) const
+{
+	return (position - P).normalize();
+}
+
+vec3f SpotLight::getColor(const vec3f& P) const
+{
+	vec3f dir = getDirection(P);
+
+	if (spotAngle != 0)
+	{
+		if (dir * direction < cos(spotAngle * M_PI / 180)) 
+			return vec3f(0, 0, 0);
+	}
+	double coff = direction * dir;
+	coff = coff < 0 ? 0 : pow(coff, spotExponent);
+	return coff * color;
+}
+
+vec3f SpotLight::shadowAttenuation(const vec3f& P) const
+{
+	vec3f dir = getDirection(P);
+	vec3f shadow;
+	if (scene->shadow_intersect(ray(P, dir), shadow, (position - P).length()))
+	{
+		return shadow;
+	}
+	return vec3f(1, 1, 1);
 }

@@ -53,4 +53,22 @@ protected:
 	vec3f position;
 };
 
+class SpotLight
+	:public Light
+{
+public:
+	SpotLight(Scene *scene, const vec3f& pos, const vec3f& color, double spotExp, vec3f dir)
+		: Light(scene, color), position(pos), spotExponent(spotExp), direction(dir) {}
+	virtual vec3f shadowAttenuation(const vec3f& P) const;
+	virtual double distanceAttenuation(const vec3f& P) const;
+	virtual vec3f getColor(const vec3f& P) const;
+	virtual vec3f getDirection(const vec3f& P) const;
+
+protected:
+	double	spotAngle;
+	vec3f	position;
+	double	spotExponent;
+	vec3f	direction;
+};
+
 #endif // __LIGHT_H__
