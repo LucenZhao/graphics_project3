@@ -28,6 +28,7 @@ public:
 
 	Fl_Slider*			m_sizeSlider;
 	Fl_Slider*			m_depthSlider;
+	Fl_Slider*			m_thresholdSlider;
 
 	Fl_Button*			m_renderButton;
 	Fl_Button*			m_stopButton;
@@ -47,6 +48,7 @@ private:
 
 	int			m_nSize;
 	int			m_nDepth;
+
 
 // static class members
 	static Fl_Menu_Item menuitems[];

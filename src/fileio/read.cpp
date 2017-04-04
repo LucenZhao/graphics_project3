@@ -531,7 +531,10 @@ static void processObject( Obj *obj, Scene *scene, mmap& materials )
 
 		scene->add( new PointLight( scene, 
 			tupleToVec( getField( child, "position" ) ),
-			tupleToVec( getColorField( child ) ) ) );
+			tupleToVec( getColorField( child ) ),
+			hasField(child, "constant_attenuation_coeff")? getField(child, "constant_attenuation_coeff")->getScalar(): 0 ,
+			hasField(child, "linear_attenuation_coeff") ? getField(child, "linear_attenuation_coeff")->getScalar() : 0,
+			hasField(child, "quadratic_attenuation_coeff") ? getField(child, "quadratic_attenuation_coeff")->getScalar() : 0 ));
 	} else if( 	name == "sphere" ||
 				name == "box" ||
 				name == "cylinder" ||
