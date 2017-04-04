@@ -167,8 +167,6 @@ bool Scene::intersect(const ray& r, isect& i) const
 			}
 		}
 	}
-
-
 	return have_one;
 }
 

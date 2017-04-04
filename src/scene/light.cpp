@@ -14,7 +14,7 @@ vec3f DirectionalLight::shadowAttenuation( const vec3f& P ) const
 	vec3f dir = getDirection(vec3f(0, 0, 0));
 	ray r(P, dir);
 	vec3f shadow;
-	if (scene->shadown_intersect(r, shadow, DBL_MAX))
+	if (scene->shadow_intersect(r, shadow, DBL_MAX))
 	{
 		return shadow;
 	}

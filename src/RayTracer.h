@@ -6,6 +6,9 @@
 #include "scene/scene.h"
 #include "scene/ray.h"
 
+class TraceUI;
+
+
 class RayTracer
 {
 public:
