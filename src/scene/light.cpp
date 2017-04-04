@@ -93,9 +93,12 @@ vec3f SpotLight::getColor(const vec3f& P) const
 		if (dir * direction < cos(spotAngle * M_PI / 180)) 
 			return vec3f(0, 0, 0);
 	}
-	double coff = direction * dir;
-	coff = coff < 0 ? 0 : pow(coff, spotExponent);
-	return coff * color;
+
+	// Warn model used in the spotlight
+	//	 use cone to control the spotlight
+	double center_light = direction * dir;
+	center_light = center_light < 0 ? 0 : pow(center_light, spotExponent);
+	return center_light * color;
 }
 
 vec3f SpotLight::shadowAttenuation(const vec3f& P) const

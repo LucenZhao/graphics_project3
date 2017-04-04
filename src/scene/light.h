@@ -57,8 +57,8 @@ class SpotLight
 	:public Light
 {
 public:
-	SpotLight(Scene *scene, const vec3f& pos, const vec3f& color, double spotExp, vec3f dir)
-		: Light(scene, color), position(pos), spotExponent(spotExp), direction(dir) {}
+	SpotLight(Scene *scene, const vec3f& color, const vec3f& pos, double spotExp, vec3f dir, double angle)
+		: Light(scene, color), position(pos), spotExponent(spotExp), direction(dir), spotAngle(angle) {}
 	virtual vec3f shadowAttenuation(const vec3f& P) const;
 	virtual double distanceAttenuation(const vec3f& P) const;
 	virtual vec3f getColor(const vec3f& P) const;

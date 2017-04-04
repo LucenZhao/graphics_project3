@@ -535,6 +535,18 @@ static void processObject( Obj *obj, Scene *scene, mmap& materials )
 			hasField(child, "constant_attenuation_coeff")? getField(child, "constant_attenuation_coeff")->getScalar(): 0 ,
 			hasField(child, "linear_attenuation_coeff") ? getField(child, "linear_attenuation_coeff")->getScalar() : 0,
 			hasField(child, "quadratic_attenuation_coeff") ? getField(child, "quadratic_attenuation_coeff")->getScalar() : 0 ));
+	} else if (name == "spot_light") {
+		if (child == NULL) {
+			throw ParseError("No info for spot_light");
+		}
+
+		scene->add(new SpotLight(scene,
+			tupleToVec(getColorField(child)),
+			tupleToVec(getField(child, "position")),
+			getField(child, "spot_exp")->getScalar(),
+			tupleToVec(getField(child, "direction")).normalize(),
+			hasField(child, "spot_angle") ? getField(child, "spot_angle")->getScalar() : 0
+		));
 	} else if( 	name == "sphere" ||
 				name == "box" ||
 				name == "cylinder" ||

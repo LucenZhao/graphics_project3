@@ -35,7 +35,7 @@ Remember that you'll need to establish to our satisfaction that you've implement
 * [x]  (Fengyee) Implement antialiasing by adaptive supersampling, as described in Foley, et al., 15.10.4. For full credit, you must show some sort of visualization of the sampling pattern that results.  
 > Not used: For example, you could create another image where each pixel is given an intensity proportional to the number of rays used to calculate the color of the corresponding pixel in the ray traced image.  Implementing this bell/whistle is a big win -- nice antialiasing at low cost.
 
-* [ ] Implement more versatile lighting controls, such as the Warn model described in Foley 16.1.5. This allows you to do things like control the shape of the projected light.
+* [x]  (Fengyee) Implement more versatile lighting controls, such as the Warn model described in Foley 16.1.5. This allows you to do things like control the shape of the projected light.
 
     - [ ] Implement bump mapping (Watt 8.4; Foley, et al. 16.3.3).
 
