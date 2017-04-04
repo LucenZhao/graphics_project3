@@ -74,7 +74,7 @@ void RayTracer::pretracing()
 	}
 }
 
-// Implement an adaptive termination criterion for tracing rays, based on ray contribution
+// Implement antialiasing by adaptive supersampling: II
 vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
 {
 	double x1 = (x - 0.5) / buffer_width;
@@ -95,8 +95,10 @@ vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
 	scene->getCamera()->rayThrough(x2, y2, r4);
 	vec3f t4 = traceRay(scene, r4, vec3f(1.0, 1.0, 1.0), 0).clamp();
 
+	// ceratiorion
 	double t = 1.0e-4;
 	vec3f average = (t1 + t2 + t3 + t4) / 4;
+	// recursive on some edge points 
 	if (depth < m_pUI->getAdaptiveDepth())
 	{
 		if ((t1 - average).length() > t ||
@@ -309,6 +311,7 @@ void RayTracer::tracePixel( int i, int j )
 		return;
 	}
 
+	// Implement antialiasing by adaptive supersampling: I
 	int adaptive_depth = m_pUI->getAdaptiveDepth();
 	if (adaptive_depth > 0)
 	{
@@ -319,8 +322,10 @@ void RayTracer::tracePixel( int i, int j )
 			pb[i + 1 + j*(buffer_width + 1)] +
 			pb[i + (j + 1)*(buffer_width + 1)] +
 			pb[i + 1 + (j + 1)*(buffer_width + 1)]) / 4;
-		double t = 1.0e-4;
 
+		// ceratiorion
+		double t = 1.0e-4;
+		// begin adaptive supersampling
 		if ( (average - pb[i + j*(buffer_width + 1)]).length() > t ||
 			(average - pb[i + 1 + j*(buffer_width + 1)]).length() > t ||
 			(average - pb[i + (j + 1)*(buffer_width + 1)]).length() > t ||

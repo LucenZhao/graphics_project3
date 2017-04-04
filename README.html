@@ -1017,7 +1017,18 @@ body .markdown-body
 </style><title>README</title></head><body><article class="markdown-body"><h3 id="comp-4411-project3-tracer"><a name="user-content-comp-4411-project3-tracer" href="#comp-4411-project3-tracer" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>COMP 4411 Project3 Tracer</h3>
 <p><a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/trace02/index.html">Project homepage</a></p>
 <hr />
-<p>Bells and Whistles</p>
+<h3 id="required"><a name="user-content-required" href="#required" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Required</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Box Intersection</li>
+<li class="task-list-item"><input type="checkbox" disabled> Phong specular-reflection model</li>
+<li class="task-list-item"><input type="checkbox" disabled> Multiple light sources, </li>
+<li class="task-list-item"><input type="checkbox" disabled checked> (Fengyee) directional lights, point lights</li>
+<li class="task-list-item"><input type="checkbox" disabled checked> (Fengyee) Shadow Attenuation</li>
+<li class="task-list-item"><input type="checkbox" disabled checked> (Fengyee) Reflection</li>
+<li class="task-list-item"><input type="checkbox" disabled checked> (Fengyee) Refraction</li>
+</ul>
+<hr />
+<h4 id="bells-and-whistles"><a name="user-content-bells-and-whistles" href="#bells-and-whistles" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Bells and Whistles</h4>
 <p>In many cases, the material in the Foley, et al. book goes into more depth on a particular subject than the Alan Watt text. In addition, Glassner&rsquo;s book on ray tracing is a very comprehensive exposition of a whole bunch of ways ray tracing can be expanded or optimized (and it&rsquo;s really well written). If you&rsquo;re planning on implementing any of these bells and whistles, you are encouraged to read the relevant sections in these books as well.</p>
 <p>Remember that you&rsquo;ll need to establish to our satisfaction that you&rsquo;ve implemented the extension! You should have test cases that clearly demonstrate the effect of the code you&rsquo;ve added to the ray tracer. Sometimes different extensions can interact, making it hard to tell how each contributed to the final image, so it&rsquo;s also helpful (that is, necessary!) to add controls to selectively enable and disable your extensions.</p>
 <ul class="task-list">
@@ -1028,19 +1039,26 @@ body .markdown-body
 </ul>
 </li>
 <li class="task-list-item">
-<p><input type="checkbox" disabled> Implement spot lights.</p>
+<p><input type="checkbox" disabled checked> (Fengyee) Implement spot lights.</p>
 <ul class="task-list">
-<li class="task-list-item"><input type="checkbox" disabled> Add a menu option that lets you specify a background image to replace the environment&rsquo;s ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.</li>
+<li class="task-list-item"><input type="checkbox" disabled> (Zhaolucen) Add a menu option that lets you specify a background image to replace the environment&rsquo;s ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.</li>
 </ul>
 </li>
 <li class="task-list-item">
-<p><input type="checkbox" disabled> Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.</p>
+<p><input type="checkbox" disabled> (Fengyee) Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.  </p>
 </li>
 <li class="task-list-item">
 <p><input type="checkbox" disabled> Deal with overlapping objects intelligently.  While the skeleton code handles materials with arbitrary indices of refraction, it assumes that objects don&rsquo;t intersect one another. It breaks down when objects intersect or are wholly contained inside other objects. Add support to the refraction code for detecting this and handling it in a more realistic fashion.  Note, however, that in the real world, objects can&rsquo;t coexist in the same place at the same time. You will have to make assumptions as to how to choose the index of refraction in the overlapping space.  Make those assumptions clear when demonstrating the results.</p>
 </li>
-<li class="task-list-item"><input type="checkbox" disabled> Add texture mapping support to the program. The most basic kind of texture mapping is to apply the map to the diffuse color of a surface. But many other parameters can be mapped. Reflected color can be mapped to create the sense of a surrounding environment. Transparency can be mapped to create holes in objects. Additional (variable) extra credit will be given for such additional mappings.  You will need to modify the parser for handling texture mapping inputs the types of mapping mentioned above.  Additional credit will be awarded for quality implementation of texture mapping on general trimeshes.</li>
-<li class="task-list-item"><input type="checkbox" disabled> Implement antialiasing by adaptive supersampling, as described in Foley, et al., 15.10.4.  For full credit, you must show some sort of visualization of the sampling pattern that results.  For example, you could create another image where each pixel is given an intensity proportional to the number of rays used to calculate the color of the corresponding pixel in the ray traced image.  Implementing this bell/whistle is a big win &ndash; nice antialiasing at low cost.</li>
+<li class="task-list-item">
+<p><input type="checkbox" disabled> (Zhaolucen) Add texture mapping support to the program. The most basic kind of texture mapping is to apply the map to the diffuse color of a surface. But many other parameters can be mapped. Reflected color can be mapped to create the sense of a surrounding environment. Transparency can be mapped to create holes in objects. Additional (variable) extra credit will be given for such additional mappings.  You will need to modify the parser for handling texture mapping inputs the types of mapping mentioned above.  Additional credit will be awarded for quality implementation of texture mapping on general trimeshes.</p>
+</li>
+<li class="task-list-item">
+<p><input type="checkbox" disabled checked> (Fengyee) Implement antialiasing by adaptive supersampling, as described in Foley, et al., 15.10.4. For full credit, you must show some sort of visualization of the sampling pattern that results.  </p>
+<blockquote>
+<p>Not used: For example, you could create another image where each pixel is given an intensity proportional to the number of rays used to calculate the color of the corresponding pixel in the ray traced image.  Implementing this bell/whistle is a big win &ndash; nice antialiasing at low cost.</p>
+</blockquote>
+</li>
 <li class="task-list-item">
 <p><input type="checkbox" disabled> Implement more versatile lighting controls, such as the Warn model described in Foley 16.1.5. This allows you to do things like control the shape of the projected light.</p>
 <ul class="task-list">
