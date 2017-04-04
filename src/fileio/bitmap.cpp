@@ -14,7 +14,7 @@
 BMP_BITMAPFILEHEADER bmfh; 
 BMP_BITMAPINFOHEADER bmih; 
 
-unsigned char *readBMP(char *fname, int& width, int& height)
+unsigned char *readBMP(const char *fname, int& width, int& height)
 { 
 	FILE* file; 
 	BMP_DWORD pos; 

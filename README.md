@@ -43,7 +43,7 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
 * [ ] Add some new types of geometry to the ray tracer. Consider implementing torii or general quadrics. Many other objects are possible here.
 
-    - [ ] Add support for height-fields. Click here for a discussion on what they are and how they can be generated.  
+    - [x]  (Fengyee) Add support for height-fields. Click here for a discussion on what they are and how they can be generated.  
 
         + [ ] for first, for each additional
             Implement distribution ray tracing to produce one or more or the following effects: depth of field, soft shadows, motion blur, or glossy reflection (See Watt 10.6, Glassner, chapter 5, or Foley, et al., 16.12.4).

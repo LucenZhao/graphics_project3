@@ -1,14 +1,4 @@
-﻿  RayTracer.cpp
+﻿  read.cpp
 c:\users\feng8\documents\github\graphics_project3\src\fileio\parse.h(180): warning C4018: '<': signed/unsigned mismatch
-c:\users\feng8\documents\github\graphics_project3\src\raytracer.cpp(173): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\feng8\documents\github\graphics_project3\src\raytracer.cpp(296): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  Box.cpp
-  read.cpp
-c:\users\feng8\documents\github\graphics_project3\src\fileio\parse.h(180): warning C4018: '<': signed/unsigned mismatch
-  light.cpp
-c:\users\feng8\documents\github\graphics_project3\src\scene\light.cpp(43): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-  material.cpp
-  scene.cpp
-  Generating Code...
   ray.vcxproj -> C:\Users\feng8\Documents\GitHub\graphics_project3\.\Debug\ray.exe
   ray.vcxproj -> .\Debug/ray.pdb (Full PDB)
