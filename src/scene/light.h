@@ -41,6 +41,7 @@ public:
 	PointLight(Scene *scene, const vec3f& pos, const vec3f& color, double aa, double bb, double cc)
 		: Light(scene, color), position(pos), m_a(aa), m_b(bb), m_c(cc) {}
 	virtual vec3f shadowAttenuation(const vec3f& P) const;
+	vec3f shadowAttenuationHelper(const vec3f& P, const ray& r) const;
 	virtual double distanceAttenuation( const vec3f& P ) const;
 	virtual vec3f getColor( const vec3f& P ) const;
 	virtual vec3f getDirection( const vec3f& P ) const;
@@ -51,6 +52,8 @@ public:
 
 protected:
 	vec3f position;
+	double softExtend = 2.0;
+	int softDepth = 6;
 };
 
 class SpotLight

@@ -189,6 +189,11 @@ void TraceUI::cb_stop(Fl_Widget* o, void* v)
 	done=true;
 }
 
+void TraceUI::cb_softShadowButton(Fl_Widget *o, void*)
+{
+	((TraceUI*)(o->user_data()))->m_is_enable_soft_shadow ^= true;
+}
+
 void TraceUI::show()
 {
 	m_mainWindow->show();
@@ -226,6 +231,11 @@ int	TraceUI::getAdaptiveDepth()
 	return m_nAdaptiveDepth;
 }
 
+bool TraceUI::getSoftShadow()
+{
+	return m_is_enable_soft_shadow;
+}
+
 // menu definition
 Fl_Menu_Item TraceUI::menuitems[] = {
 	{ "&File",		0, 0, 0, FL_SUBMENU },
@@ -249,7 +259,7 @@ TraceUI::TraceUI() {
 	m_nJitter = 0;
 	m_nAdaptiveDepth = 0;
 
-	m_mainWindow = new Fl_Window(100, 100, 350, 300, "Ray <Not Loaded>");
+	m_mainWindow = new Fl_Window(100, 100, 350, 400, "Ray <Not Loaded>");
 		m_mainWindow->user_data((void*)(this));	// record self to be used by static callback functions
 		// install menu bar
 		m_menubar = new Fl_Menu_Bar(0, 0, 350, 25);
@@ -371,6 +381,11 @@ TraceUI::TraceUI() {
 		m_thresholdSlider->step(0.01);
 		m_thresholdSlider->value(0);
 		m_thresholdSlider->align(FL_ALIGN_RIGHT);
+
+		m_softShadowButton = new Fl_Light_Button(10, 280, 120, 20, "Soft Shadow");
+		m_softShadowButton->user_data((void*)(this));
+		m_softShadowButton->value(0);
+		m_softShadowButton->callback(cb_softShadowButton);
 
 		m_renderButton = new Fl_Button(270, 27, 70, 25, "&Render");
 		m_renderButton->user_data((void*)(this));

@@ -40,6 +40,8 @@ public:
 	Fl_Button*			m_renderButton;
 	Fl_Button*			m_stopButton;
 
+	Fl_Light_Button*	m_softShadowButton;
+
 	TraceGLWindow*		m_traceGlWindow;
 
 	// member functions
@@ -52,6 +54,7 @@ public:
 	int			getSuperSampling();
 	int			getJitter();
 	int			getAdaptiveDepth();
+	bool		getSoftShadow();
 
 private:
 	RayTracer*	raytracer;
@@ -61,6 +64,7 @@ private:
 	int			m_nSupersampling;
 	int			m_nJitter;
 	int			m_nAdaptiveDepth;
+	bool		m_is_enable_soft_shadow;
 
 
 // static class members
@@ -84,6 +88,7 @@ private:
 
 	static void cb_render(Fl_Widget* o, void* v);
 	static void cb_stop(Fl_Widget* o, void* v);
+	static void cb_softShadowButton(Fl_Widget *o, void*);
 };
 
 #endif

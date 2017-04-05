@@ -45,8 +45,12 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
     - [x]  (Fengyee) Add support for height-fields. Click here for a discussion on what they are and how they can be generated.  
 
-        + [ ] for first, for each additional
+        + [ ]  (Fengyee) for first, for each additional
             Implement distribution ray tracing to produce one or more or the following effects: depth of field, soft shadows, motion blur, or glossy reflection (See Watt 10.6, Glassner, chapter 5, or Foley, et al., 16.12.4).
+            + [x] soft shadows of pointlights
+            + [ ] depth of field
+            + [ ] motion blur
+            + [ ] glossy reflection
 
 - [ ] Add some higher-level geometry to the ray tracer, such as surfaces of revolution, extrusions, metaballs or blend surfaces.  You may have implemented one or more of these as a polygonal object in the modeler project.  For the Raytracer, be sure you are actually raytracing the surface as a mathematical construct, not just creating a polygonal representation of the object and tracing that.  Yes, this requires lots of complicated math, but the final results are definitely worth it (see Transparent Metaballs).  A really good tutorial on raytracing metaballs.
 

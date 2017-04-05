@@ -2,6 +2,9 @@
 #include <cmath>
 
 #include "light.h"
+#include "../ui/TraceUI.h"
+
+extern TraceUI* traceUI;
 
 double DirectionalLight::distanceAttenuation( const vec3f& P ) const
 {
@@ -58,11 +61,8 @@ vec3f PointLight::getDirection( const vec3f& P ) const
 	return (position - P).normalize();
 }
 
-
-vec3f PointLight::shadowAttenuation(const vec3f& P) const
+vec3f PointLight::shadowAttenuationHelper(const vec3f& P, const ray& r) const
 {
-	vec3f dir = getDirection(P);
-	ray r(P, dir);
 	vec3f shadow;
 	double threshold = (position - P).length();
 
@@ -71,9 +71,39 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 		return shadow;
 	}
 
-    return vec3f(1,1,1);
+	return vec3f(1, 1, 1);
 }
 
+vec3f PointLight::shadowAttenuation(const vec3f& P) const
+{
+	// Soft shadow
+	if (traceUI->getSoftShadow())
+	{
+		vec3f shadow(1.0, 1.0, 1.0);
+		vec3f softlight_pos;
+		for (int i = 0; i < softDepth; i++)
+		{
+			softlight_pos[0] = position[0] + softExtend * ((double)i / softExtend - 0.5);
+			for (int j = 0; j < softDepth; j++)
+			{
+				softlight_pos[1] = position[1] + softExtend * ((double)j / softExtend - 0.5);
+				for (int k = 0; k < softDepth; k++)
+				{
+					softlight_pos[2] = position[2] + softExtend * ((double)k / softExtend - 0.5);
+					ray r(P, (softlight_pos - P).normalize());
+					shadow += shadowAttenuationHelper(P, r);
+				}
+			}
+		}
+		return shadow / (pow(softDepth, 3));
+	}
+	else
+	{
+		return shadowAttenuationHelper(P, ray(P, getDirection(P)));
+	}
+}
+
+ 
 double SpotLight::distanceAttenuation(const vec3f& P) const
 {
 	return 1.0;
