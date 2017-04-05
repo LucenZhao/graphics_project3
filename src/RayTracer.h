@@ -17,7 +17,7 @@ public:
 
     vec3f trace( Scene *scene, double x, double y );
 	vec3f trace(Scene *scene, double x, double y, int depth);
-	vec3f traceRay( Scene *scene, const ray& r, const vec3f& thresh, int depth );
+	vec3f traceRay( Scene *scene, const ray& r, const vec3f& thresh, int depth, double intensity = 1.0, bool in = true );
 
 	void setTraceUI(TraceUI* ui) { m_pUI = ui; }
 	void getBuffer( unsigned char *&buf, int &w, int &h );

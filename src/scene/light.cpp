@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-
+#include <utility>
 #include "light.h"
 #include "../ui/TraceUI.h"
 
@@ -36,6 +36,11 @@ vec3f DirectionalLight::getDirection( const vec3f& P ) const
 	return -orientation;
 }
 
+vec3f DirectionalLight::getAmbientColor(const vec3f& P) const
+{
+	return vec3f(0.0, 0.0, 0.0);
+}
+
 double PointLight::distanceAttenuation( const vec3f& P ) const
 {
 	double a = m_a;
@@ -43,11 +48,11 @@ double PointLight::distanceAttenuation( const vec3f& P ) const
 	double c = m_c;
 	double d = (position - P).length();
 
-	if (a == 0 && b == 0 & c == 0)
+	if (a == 0 && b == 0 && c == 0)
 	{
 		return 1.0;
 	}
-	return min<double>(1, 1.0 / (a + b * d + b * d * d));
+	return min<double>(1, 1.0 / (a + b * d + c * d * d));
 }
 
 vec3f PointLight::getColor( const vec3f& P ) const
@@ -61,10 +66,9 @@ vec3f PointLight::getDirection( const vec3f& P ) const
 	return (position - P).normalize();
 }
 
-vec3f PointLight::shadowAttenuationHelper(const vec3f& P, const ray& r) const
+vec3f PointLight::shadowAttenuationHelper(const vec3f& P, const ray& r, double threshold) const
 {
 	vec3f shadow;
-	double threshold = (position - P).length();
 
 	if (scene->shadow_intersect(r, shadow, threshold))
 	{
@@ -91,7 +95,8 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 				{
 					softlight_pos[2] = position[2] + softExtend * ((double)k / softExtend - 0.5);
 					ray r(P, (softlight_pos - P).normalize());
-					shadow += shadowAttenuationHelper(P, r);
+					double threshold = (softlight_pos - P).length();
+					shadow += shadowAttenuationHelper(P, r, threshold);
 				}
 			}
 		}
@@ -99,8 +104,13 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 	}
 	else
 	{
-		return shadowAttenuationHelper(P, ray(P, getDirection(P)));
+		return shadowAttenuationHelper(P, ray(P, getDirection(P)), (position - P).length());
 	}
+}
+
+vec3f PointLight::getAmbientColor(const vec3f& P) const
+{
+	return vec3f(0.0, 0.0, 0.0);
 }
 
  
@@ -140,4 +150,35 @@ vec3f SpotLight::shadowAttenuation(const vec3f& P) const
 		return shadow;
 	}
 	return vec3f(1, 1, 1);
+}
+
+vec3f SpotLight::getAmbientColor(const vec3f& P) const
+{
+	return vec3f(0, 0, 0);
+}
+
+double AmbientLight::distanceAttenuation(const vec3f& P) const
+{
+	return 1.0;
+}
+
+vec3f AmbientLight::getColor(const vec3f& P) const
+{
+	// Color doesn't depend on P 
+	return vec3f(0, 0, 0);
+}
+
+vec3f AmbientLight::getDirection(const vec3f& P) const
+{
+	return vec3f(0, 0, 0);
+}
+
+vec3f AmbientLight::shadowAttenuation(const vec3f& P) const
+{
+	return vec3f(1, 1, 1);
+}
+
+vec3f AmbientLight::getAmbientColor(const vec3f& P) const
+{
+	return color;
 }

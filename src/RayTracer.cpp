@@ -11,7 +11,8 @@
 #include "ui/TraceUI.h"
 
 #include <random>
-
+#include <iostream>
+using namespace std;
 // Trace a top-level ray through normalized window coordinates (x,y)
 // through the projection plane, and out into the scene.  All we do is
 // enter the main ray-tracing method, getting things started by plugging
@@ -117,7 +118,7 @@ vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
 // Do recursive ray tracing!  You'll want to insert a lot of code here
 // (or places called from here) to handle reflection, refraction, etc etc.
 vec3f RayTracer::traceRay( Scene *scene, const ray& r, 
-	const vec3f& thresh, int depth )
+	const vec3f& thresh, int depth, double intensity, bool in )
 {
 	isect i;
 
@@ -125,18 +126,23 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 		const Material& m = i.getMaterial();
 		vec3f I = m.shade(scene, r, i);
 
-		if (depth < m_pUI->getDepth())
+		vec3f ones(1.0, 1.0, 1.0);
+		vec3f ktInv = ones - m.kt;
+		I = prod(ktInv, I);
+
+		if (depth < m_pUI->getDepth() && (m_pUI->m_thresholdSlider->value() == 0 || intensity > m_pUI->m_thresholdSlider->value()))
 		{
 			vec3f r2_position = r.getPosition() + r.getDirection() * i.t;
 
 			// reflection
 			if (m.kr[0] > 0 && m.kr[1] > 0 && m.kr[2] > 0)
 			{
-				vec3f reflected_direction = r.getDirection() - i.N * (2.0 * (r.getDirection() * i.N));
+				// cout << "reflection";
+				vec3f reflected_direction = (2 * ((-r.getDirection()) * i.N) * i.N - (-r.getDirection())).normalize();
 				if (!distReflection) // distribution reflection off
 				{
 					ray r2(r2_position, reflected_direction);
-					vec3f next_I = traceRay(scene, r2, thresh, depth + 1);
+					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.ks[0] + m.ks[1] + m.ks[2]) / 3 * intensity, in);
 
 					I += prod(m.ks, next_I);
 				}
@@ -145,46 +151,37 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 
 				}
 			}
-			
-			
-
 			// transmissive
 			if (m.kt[0] > 0 && m.kt[1] > 0 && m.kt[2] > 0)
 			{
-				vec3f N_ref = i.N;
-				double cosi = r.getDirection() * N_ref;
-				double etai = 1, etat = m.index;
-				if (cosi < 0)
+				//	cout << "refraction" << endl;
+				if (i.getMaterial().index != 1.0)
 				{
-					// outside the surface
-					cosi = -cosi;
-				}
-				else
-				{
-					// inside the surface
-					N_ref = -N_ref;
-					// swap the refraction index
-					std::swap(etai, etat);
-				}
+					double eta = in ? 1.0 / i.getMaterial().index : i.getMaterial().index;
+					double NI = -r.getDirection() * i.N;
+					double cosThetaTsq = 1 - eta * eta * (1 - NI * NI);
 
-				double eta = etai / etat;
-				double sintSquare = 1 - eta * eta * (1 - cosi * cosi);
-
-				if (sintSquare >= 0) // else total internal refraction
-				{
-					vec3f refract_direction = eta * I + (eta * cosi - sqrtf(sintSquare)) * N_ref;
-					refract_direction = refract_direction.normalize();
-
-					if (!distRefraction) // distribution refraction off
+					if (cosThetaTsq >= 0) // else total internal refraction
 					{
-						ray r2(r2_position, refract_direction);
-						vec3f next_I = traceRay(scene, r2, thresh, depth + 1);
-						I += prod(m.kt, next_I);
-					}
-					else // distribution refraction on
-					{
+						vec3f refract_direction = (eta * NI - sqrt(cosThetaTsq)) * i.N - eta * -r.getDirection();
+						refract_direction = refract_direction.normalize();
 
+						if (!distRefraction) // distribution refraction off
+						{
+							ray r2(r2_position, refract_direction);
+							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
+							I += prod(m.kt, next_I);
+						}
+						else // distribution refraction on
+						{
+
+						}
 					}
+				}
+				else {
+					ray r2(r.getPosition() + r.getDirection() * i.t, r.getDirection());
+					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
+					I += prod(m.kt, next_I);
 				}
 			}
 		}
