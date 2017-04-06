@@ -167,31 +167,29 @@ bool Scene::intersect(const ray& r, isect& i) const
 			}
 		}
 	}
+
+
 	return have_one;
 }
 
-// Get any intersection and calculate the shadow result with an object.  
-// Return information about the intersection through the reference parameter.
-bool Scene::shadow_intersect(const ray& r, vec3f& shadow, double t) const
+bool Scene::shadow_intersect(const ray& r, vec3f& result, double t) const
 {
+	result = vec3f(1.0, 1.0, 1.0);
 	typedef list<Geometry*>::const_iterator iter;
 	iter j;
 
 	isect cur;
 	bool have_one = false;
-	shadow = vec3f(1.0, 1.0, 1.0);
+
 	// try the non-bounded objects
 	for (j = nonboundedobjects.begin(); j != nonboundedobjects.end(); ++j) {
 		if ((*j)->intersect(r, cur) && cur.t < t) {
-			// get shadow by material
-			shadow = prod(shadow, cur.getMaterial().kt);
-			if (traceUI->m_thresholdSlider->value() != 0 &&
-				shadow.length() < traceUI->m_thresholdSlider->value() * 3)
+			result = prod(result, cur.getMaterial().kt);
+			if (traceUI->m_thresholdSlider->value() != 0 && result.length() < traceUI->m_thresholdSlider->value() * 3)
 			{
-				shadow = vec3f(0, 0, 0);
+				result = vec3f(0, 0, 0);
 				return true;
 			}
-
 			if (!have_one) {
 				have_one = true;
 			}
@@ -201,15 +199,12 @@ bool Scene::shadow_intersect(const ray& r, vec3f& shadow, double t) const
 	// try the bounded objects
 	for (j = boundedobjects.begin(); j != boundedobjects.end(); ++j) {
 		if ((*j)->intersect(r, cur) && cur.t < t) {
-			// get shadow by material
-			shadow = prod(shadow, cur.getMaterial().kt);
-			if (traceUI->m_thresholdSlider->value() != 0 &&
-				shadow.length() < traceUI->m_thresholdSlider->value() * 3)
+			result = prod(result, cur.getMaterial().kt);
+			if (traceUI->m_thresholdSlider->value() != 0 && result.length() < traceUI->m_thresholdSlider->value() * 3)
 			{
-				shadow = vec3f(0, 0, 0);
+				result = vec3f(0, 0, 0);
 				return true;
 			}
-
 			if (!have_one) {
 				have_one = true;
 			}
@@ -217,7 +212,6 @@ bool Scene::shadow_intersect(const ray& r, vec3f& shadow, double t) const
 	}
 	return have_one;
 }
-
 void Scene::initScene()
 {
 	bool first_boundedobject = true;
