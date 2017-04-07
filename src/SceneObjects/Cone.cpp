@@ -55,8 +55,10 @@ bool Cone::intersectBody( const ray& r, isect& i ) const
 			i.t = t1;
             i.N = vec3f( P[0], P[1], 
               -(C*P[2]+(t_radius-b_radius)*t_radius/height)).normalize();
+
+			if (!capped && (i.N).dot(r.getDirection()) > 0)
+			i.N = -i.N;
 				
-			
 			return true;
 		}
 	}
