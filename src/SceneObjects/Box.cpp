@@ -38,12 +38,12 @@ bool Box::intersectXYplane(const ray& r, isect& i) const
 	double t2;
 
 	if (d[2] > 0.0) {
-		t1 = (-p[2]) / d[2];
-		t2 = (1.0 - p[2]) / d[2];
+		t1 = (-0.5 -p[2]) / d[2];
+		t2 = (0.5 - p[2]) / d[2];
 	}
 	else {
-		t1 = (1.0 - p[2]) / d[2];
-		t2 = (-p[2]) / d[2];
+		t1 = (0.5 - p[2]) / d[2];
+		t2 = (-0.5 -p[2]) / d[2];
 	}
 	if (t2 < RAY_EPSILON) {
 		return false;
@@ -82,6 +82,7 @@ bool Box::intersectXYplane(const ray& r, isect& i) const
 
 bool Box::intersectYZplane(const ray& r, isect& i) const
 {
+	
 	vec3f p = r.getPosition();
 	vec3f d = r.getDirection();
 
@@ -91,12 +92,12 @@ bool Box::intersectYZplane(const ray& r, isect& i) const
 	double t2;
 
 	if (d[0] > 0.0) {
-		t1 = (-p[0]) / d[0];
-		t2 = (1.0 - p[0]) / d[0];
+		t1 = (-0.5 -p[0]) / d[0];
+		t2 = (0.5 - p[0]) / d[0];
 	}
 	else {
-		t1 = (1.0 - p[0]) / d[0];
-		t2 = (-p[0]) / d[0];
+		t1 = (0.5 - p[0]) / d[0];
+		t2 = (-0.5 -p[0]) / d[0];
 	}
 	if (t2 < RAY_EPSILON) {
 		return false;
@@ -130,6 +131,7 @@ bool Box::intersectYZplane(const ray& r, isect& i) const
 	}
 
 	return false;
+	
 }
 
 bool Box::intersectXZplane(const ray& r, isect& i) const
@@ -143,12 +145,12 @@ bool Box::intersectXZplane(const ray& r, isect& i) const
 	double t2;
 
 	if (d[1] > 0.0) {
-		t1 = (-p[1]) / d[1];
-		t2 = (1.0 - p[1]) / d[1];
+		t1 = (-0.5 -p[1]) / d[1];
+		t2 = (0.5 - p[1]) / d[1];
 	}
 	else {
-		t1 = (1.0 - p[1]) / d[1];
-		t2 = (-p[1]) / d[1];
+		t1 = (0.5 - p[1]) / d[1];
+		t2 = (-0.5 -p[1]) / d[1];
 	}
 	if (t2 < RAY_EPSILON) {
 		return false;

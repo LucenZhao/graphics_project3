@@ -3,8 +3,8 @@
 
 ***
 ### Required
- - [ ] Box Intersection
- - [ ] Phong specular-reflection model
+ - [x] Box Intersection
+ - [x] Phong specular-reflection model
  - [ ] Multiple light sources, 
  - [x]  (Fengyee) directional lights, point lights
  - [x]  (Fengyee) Shadow Attenuation
@@ -24,13 +24,13 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
 * [x]  (Fengyee) Implement spot lights.
 
-    - [ ]  (Zhaolucen) Add a menu option that lets you specify a background image to replace the environment's ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.
+    - [x]  (Zhaolucen) Add a menu option that lets you specify a background image to replace the environment's ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.
 
 * [ ]  (Fengyee) Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.  
 
 * [ ] Deal with overlapping objects intelligently.  While the skeleton code handles materials with arbitrary indices of refraction, it assumes that objects don't intersect one another. It breaks down when objects intersect or are wholly contained inside other objects. Add support to the refraction code for detecting this and handling it in a more realistic fashion.  Note, however, that in the real world, objects can't coexist in the same place at the same time. You will have to make assumptions as to how to choose the index of refraction in the overlapping space.  Make those assumptions clear when demonstrating the results.
 
-* [ ]  (Zhaolucen) Add texture mapping support to the program. The most basic kind of texture mapping is to apply the map to the diffuse color of a surface. But many other parameters can be mapped. Reflected color can be mapped to create the sense of a surrounding environment. Transparency can be mapped to create holes in objects. Additional (variable) extra credit will be given for such additional mappings.  You will need to modify the parser for handling texture mapping inputs the types of mapping mentioned above.  Additional credit will be awarded for quality implementation of texture mapping on general trimeshes.
+* [x]  (Zhaolucen) Add texture mapping support to the program. The most basic kind of texture mapping is to apply the map to the diffuse color of a surface. But many other parameters can be mapped. Reflected color can be mapped to create the sense of a surrounding environment. Transparency can be mapped to create holes in objects. Additional (variable) extra credit will be given for such additional mappings.  You will need to modify the parser for handling texture mapping inputs the types of mapping mentioned above.  Additional credit will be awarded for quality implementation of texture mapping on general trimeshes.
 
 * [x]  (Fengyee) Implement antialiasing by adaptive supersampling, as described in Foley, et al., 15.10.4. For full credit, you must show some sort of visualization of the sampling pattern that results.  
 > Not used: For example, you could create another image where each pixel is given an intensity proportional to the number of rays used to calculate the color of the corresponding pixel in the ray traced image.  Implementing this bell/whistle is a big win -- nice antialiasing at low cost.

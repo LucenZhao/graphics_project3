@@ -39,6 +39,9 @@ void TraceUI::cb_load_scene(Fl_Menu_* o, void* v)
 
 		pUI->m_mainWindow->label(buf);
 	}
+
+	pUI->m_traceGlWindow->havingBG = false;
+	pUI->m_traceGlWindow->havingTexture = false;
 }
 
 void TraceUI::cb_save_image(Fl_Menu_* o, void* v) 
@@ -48,6 +51,24 @@ void TraceUI::cb_save_image(Fl_Menu_* o, void* v)
 	char* savefile = fl_file_chooser("Save Image?", "*.bmp", "save.bmp" );
 	if (savefile != NULL) {
 		pUI->m_traceGlWindow->saveImage(savefile);
+	}
+}
+
+void TraceUI::cb_load_background(Fl_Menu_* o, void* v)
+{
+	TraceUI* pUI = whoami(o);
+	char* background = fl_file_chooser("Open Image?", "*.bmp", NULL);
+	if (background != NULL) {
+		pUI->m_traceGlWindow->loadBackground(background);
+	}
+}
+
+void TraceUI::cb_load_texture(Fl_Menu_* o, void* v)
+{
+	TraceUI* pUI = whoami(o);
+	char* texture = fl_file_chooser("Open Image?", "*.bmp", NULL);
+	if (texture != NULL) {
+		pUI->m_traceGlWindow->loadTexture(texture);
 	}
 }
 
@@ -241,6 +262,8 @@ Fl_Menu_Item TraceUI::menuitems[] = {
 	{ "&File",		0, 0, 0, FL_SUBMENU },
 		{ "&Load Scene...",	FL_ALT + 'l', (Fl_Callback *)TraceUI::cb_load_scene },
 		{ "&Save Image...",	FL_ALT + 's', (Fl_Callback *)TraceUI::cb_save_image },
+		{ "&Load Background...",	FL_ALT + 'b', (Fl_Callback *)TraceUI::cb_load_background },
+		{ "&Load Texture...",	FL_ALT + 't', (Fl_Callback *)TraceUI::cb_load_texture },
 		{ "&Exit",			FL_ALT + 'e', (Fl_Callback *)TraceUI::cb_exit },
 		{ 0 },
 
