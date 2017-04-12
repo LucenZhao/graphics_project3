@@ -20,6 +20,7 @@
 #include "../SceneObjects/Cylinder.h"
 #include "../SceneObjects/Sphere.h"
 #include "../SceneObjects/Quadric.h"
+#include "../SceneObjects/Metaball.h"
 #include "../SceneObjects/Square.h"
 #include "../scene/light.h"
 
@@ -329,6 +330,9 @@ static void processGeometry(string name, Obj *child, Scene *scene,
 		}
 		else if (name == "quadric") {
 			obj = new Quadric(scene, mat);
+		}
+		else if (name == "metaball") {
+			obj = new Metaball(scene, mat);
 		}
 		else if (name == "cone") {
 			double height = 1.0;

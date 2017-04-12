@@ -13,9 +13,9 @@ public:
 	}
 
 	virtual bool intersectLocal( const ray& r, isect& i ) const;
-	bool intersectXZplane(const ray& r, isect& i) const;
-	bool intersectXYplane(const ray& r, isect& i) const;
-	bool intersectYZplane(const ray& r, isect& i) const;
+	bool intersectXZplane(const ray& r, isect& i, double& T1, double& T2) const;
+	bool intersectXYplane(const ray& r, isect& i, double& T1, double& T2) const;
+	bool intersectYZplane(const ray& r, isect& i, double& T1, double& T2) const;
 	virtual bool hasBoundingBoxCapability() const { return true; }
     virtual BoundingBox ComputeLocalBoundingBox()
     {
