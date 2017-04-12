@@ -4,7 +4,7 @@
 
 #include "TraceGLWindow.h"
 #include "../RayTracer.h"
-
+#include <FL/fl_ask.h>
 #include "../fileio/bitmap.h"
 
 TraceGLWindow::TraceGLWindow(int x, int y, int w, int h, const char *l)
@@ -71,6 +71,54 @@ void TraceGLWindow::saveImage(char *iname)
 	raytracer->getBuffer(buf, m_nDrawWidth, m_nDrawHeight);
 	if (buf)
 		writeBMP(iname, m_nDrawWidth, m_nDrawHeight, buf); 
+}
+
+void TraceGLWindow::loadBackground(char *iname)
+{
+	// try to open the image to read
+	unsigned char*	data;
+	int				width,
+		height;
+
+	if ((data = readBMP(iname, width, height)) == NULL)
+	{
+		fl_alert("Can't load bitmap file");
+		return;
+	}
+
+	if (width != m_nDrawWidth || height != m_nDrawHeight)
+	{
+		fl_alert("Size of bitmap file different from the scene.");
+		return;
+	}
+
+
+	// release old storage
+	//if (m_ucBitmapBG) delete[] m_ucBitmapBG;
+	//m_ucBitmapBG = new unsigned char[width*height * 3];
+	m_ucBitmapBG = data;
+	havingBG = true;
+}
+
+void TraceGLWindow::loadTexture(char *iname)
+{
+	// try to open the image to read
+	unsigned char*	data;
+	int				width,
+		height;
+
+	if ((data = readBMP(iname, width, height)) == NULL)
+	{
+		fl_alert("Can't load bitmap file");
+		return;
+	}
+
+
+	// release old storage
+	//if (m_ucBitmapBG) delete[] m_ucBitmapBG;
+	//m_ucBitmapBG = new unsigned char[width*height * 3];
+	m_ucBitmapTexture = data;
+	havingTexture = true;
 }
 
 void TraceGLWindow::setRayTracer(RayTracer *tracer)

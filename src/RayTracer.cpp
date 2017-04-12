@@ -17,13 +17,22 @@ using namespace std;
 // through the projection plane, and out into the scene.  All we do is
 // enter the main ray-tracing method, getting things started by plugging
 // in an initial ray weight of (0.0,0.0,0.0) and an initial recursion depth of 0.
-vec3f RayTracer::trace( Scene *scene, double x, double y )
+vec3f RayTracer::trace( Scene *scene, double x, double y, vec3f bgColor, vec3f textureColor)
 {
 	// upgrade the second whistle
 	// Implement antialiasing by supersampling and averaging down.
 	int super_sampling = m_pUI->getSuperSampling();
 	int jitter = m_pUI->getJitter();
-
+	if (m_pUI->m_traceGlWindow->havingTexture)
+	{
+		//printf("setting texture");
+		int x_t = (int)(x * buffer_width);
+		int y_t = (int)(y * buffer_height);
+		textureColor[0] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3] / 255;
+		textureColor[1] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3 + 1] / 255;
+		textureColor[2] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3 + 2] / 255;
+		//printf("finish setting");
+	}
 	if (super_sampling != 0)
 	{
 		// super sampling and jittering
@@ -42,7 +51,7 @@ vec3f RayTracer::trace( Scene *scene, double x, double y )
 				double offsetY = ((j + 0.5 + (random(random_engine) - upper_bound / 2)) / super_sampling - 0.5) / buffer_height;
 				scene->getCamera()->rayThrough(x + offsetX, y + offsetY, r);
 				// sum up the trace ray result
-				result += traceRay(scene, r, vec3f(1.0, 1.0, 1.0), 0).clamp();
+				result += traceRay(scene, r, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 			}
 		}
 		// avg the super samping result
@@ -52,7 +61,7 @@ vec3f RayTracer::trace( Scene *scene, double x, double y )
 	{
 		ray r(vec3f(0, 0, 0), vec3f(0, 0, 0));
 		scene->getCamera()->rayThrough(x, y, r);
-		return traceRay(scene, r, vec3f(1.0, 1.0, 1.0), 0).clamp();
+		return traceRay(scene, r, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 	}
 }
 
@@ -76,25 +85,34 @@ void RayTracer::pretracing()
 }
 
 // Implement antialiasing by adaptive supersampling: II
-vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
+vec3f RayTracer::trace(Scene *scene, double x, double y, int depth, vec3f bgColor, vec3f textureColor)
 {
 	double x1 = (x - 0.5) / buffer_width;
 	double x2 = (x - 0.5 + 1.0 / pow(2, depth)) / buffer_width;
 	double y1 = (y - 0.5) / buffer_height;
 	double y2 = (y - 0.5 + 1.0 / pow(2, depth)) / buffer_height;
-	
+
+	if (m_pUI->m_traceGlWindow->havingTexture)
+	{
+		int x_t = (int)(x * buffer_width);
+		int y_t = (int)(y * buffer_height);
+		textureColor[0] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3] / 255;
+		textureColor[1] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3 + 1] / 255;
+		textureColor[2] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[y_t * 3 * buffer_height + x_t * 3 + 2] / 255;
+	}
+
 	ray r1(vec3f(0, 0, 0), vec3f(0, 0, 0));
 	scene->getCamera()->rayThrough(x1, y1, r1);
-	vec3f t1 = traceRay(scene, r1, vec3f(1.0, 1.0, 1.0), 0).clamp();
+	vec3f t1 = traceRay(scene, r1, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 	ray r2(vec3f(0, 0, 0), vec3f(0, 0, 0));
 	scene->getCamera()->rayThrough(x2, y1, r2);
-	vec3f t2 = traceRay(scene, r2, vec3f(1.0, 1.0, 1.0), 0).clamp();
+	vec3f t2 = traceRay(scene, r2, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 	ray r3(vec3f(0, 0, 0), vec3f(0, 0, 0));
 	scene->getCamera()->rayThrough(x1, y2, r3);
-	vec3f t3 = traceRay(scene, r3, vec3f(1.0, 1.0, 1.0), 0).clamp();
+	vec3f t3 = traceRay(scene, r3, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 	ray r4(vec3f(0, 0, 0), vec3f(0, 0, 0));
 	scene->getCamera()->rayThrough(x2, y2, r4);
-	vec3f t4 = traceRay(scene, r4, vec3f(1.0, 1.0, 1.0), 0).clamp();
+	vec3f t4 = traceRay(scene, r4, vec3f(1.0, 1.0, 1.0), 0, bgColor, textureColor).clamp();
 
 	// ceratiorion
 	double t = 1.0e-4;
@@ -107,8 +125,8 @@ vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
 			(t3 - average).length() > t ||
 			(t4 - average).length() > t)
 		{
-			vec3f sum = trace(scene, x, y, depth + 1) + trace(scene, x + 1 / pow(2, depth + 1), y, depth + 1) +
-				trace(scene, x, y + 1 / pow(2, depth + 1), depth + 1) + trace(scene, x + 1 / pow(2, depth + 1), y + 1 / pow(2, depth + 1), depth + 1);
+			vec3f sum = trace(scene, x, y, depth + 1, bgColor, textureColor) + trace(scene, x + 1 / pow(2, depth + 1), y, depth + 1, bgColor, textureColor) +
+				trace(scene, x, y + 1 / pow(2, depth + 1), depth + 1, bgColor, textureColor) + trace(scene, x + 1 / pow(2, depth + 1), y + 1 / pow(2, depth + 1), depth + 1, bgColor, textureColor);
 			return sum / 4;
 		}
 	}
@@ -118,14 +136,22 @@ vec3f RayTracer::trace(Scene *scene, double x, double y, int depth)
 // Do recursive ray tracing!  You'll want to insert a lot of code here
 // (or places called from here) to handle reflection, refraction, etc etc.
 vec3f RayTracer::traceRay( Scene *scene, const ray& r, 
-	const vec3f& thresh, int depth, double intensity, bool in )
+	const vec3f& thresh, int depth, vec3f bg, vec3f texture, double intensity, bool in)
 {
+	//printf("ray tracing");
 	isect i;
 
 	if( scene->intersect( r, i ) ) {
 		const Material& m = i.getMaterial();
-		vec3f I = m.shade(scene, r, i);
-
+		vec3f I;
+		if (m_pUI->m_traceGlWindow->havingTexture)
+		{
+			I = m.shade(scene, r, i, true, texture);
+		}
+		else
+		{
+			I = m.shade(scene, r, i, false);
+		}
 		vec3f ones(1.0, 1.0, 1.0);
 		vec3f ktInv = ones - m.kt;
 		I = prod(ktInv, I);
@@ -142,7 +168,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 				if (!distReflection) // distribution reflection off
 				{
 					ray r2(r2_position, reflected_direction);
-					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.ks[0] + m.ks[1] + m.ks[2]) / 3 * intensity, in);
+					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, bg, texture, (m.ks[0] + m.ks[1] + m.ks[2]) / 3 * intensity, in);
 
 					I += prod(m.ks, next_I);
 				}
@@ -171,7 +197,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 
 							// recursion
 							ray r2(r2_position, dir);
-							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (ks[0] + ks[1] + ks[2]) / 3 * intensity, in);
+							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, bg, texture, (ks[0] + ks[1] + ks[2]) / 3 * intensity, in);
 							I += prod(ks, next_I);
 
 							x2 += distStep;
@@ -199,7 +225,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 						if (!distRefraction) // distribution refraction off
 						{
 							ray r2(r2_position, refract_direction);
-							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
+							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, bg, texture, (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
 							I += prod(m.kt, next_I);
 						}
 						else // distribution refraction on
@@ -223,7 +249,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 									if (t[3] != 0)
 										dir = dir / t[3];
 									ray r2(r2_position, dir);
-									vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (kt[0] + kt[1] + kt[2]) / 3 * intensity, !in);
+									vec3f next_I = traceRay(scene, r2, thresh, depth + 1, bg, texture, (kt[0] + kt[1] + kt[2]) / 3 * intensity, !in);
 
 									I += prod(kt, next_I);
 
@@ -236,7 +262,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 				}
 				else {
 					ray r2(r.getPosition() + r.getDirection() * i.t, r.getDirection());
-					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
+					vec3f next_I = traceRay(scene, r2, thresh, depth + 1, bg, texture,  (m.kt[0] + m.kt[1] + m.kt[2]) / 3 * intensity, !in);
 					I += prod(m.kt, next_I);
 				}
 			}
@@ -246,7 +272,7 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 	else 
 	{
 		// not intersection
-		return vec3f( 0.0, 0.0, 0.0 );
+		return bg;
 	}
 }
 
@@ -363,6 +389,16 @@ void RayTracer::tracePixel( int i, int j )
 	{
 		return;
 	}
+	//std::cout << i << ' ' << j << std::endl;
+	vec3f bgColor(0.0,0.0,0.0);
+	if (m_pUI->m_traceGlWindow->havingBG)
+	{
+		bgColor[0] = (double)m_pUI->m_traceGlWindow->m_ucBitmapBG[j * 3 * buffer_height + i * 3] / 255;
+		bgColor[1] = (double)m_pUI->m_traceGlWindow->m_ucBitmapBG[j * 3 * buffer_height + i * 3 + 1] / 255;
+		bgColor[2] = (double)m_pUI->m_traceGlWindow->m_ucBitmapBG[j * 3 * buffer_height + i * 3 + 2] / 255;
+		//std::cout << bgColor[0] << bgColor[1] << bgColor[2] << std::endl;
+	}
+	
 
 	// Implement antialiasing by adaptive supersampling: I
 	int adaptive_depth = m_pUI->getAdaptiveDepth();
@@ -385,7 +421,7 @@ void RayTracer::tracePixel( int i, int j )
 			(average - pb[(i + 1) + (j + 1)*(buffer_width + 1)]).length() > t
 			)
 		{
-			col = trace(scene, i, j, 1) + trace(scene, i + 0.5, j, 1) + trace(scene, i, j + 0.5, 1) + trace(scene, i + 0.5, j + 0.5, 1);
+			col = trace(scene, i, j, 1, bgColor) + trace(scene, i + 0.5, j, 1, bgColor) + trace(scene, i, j + 0.5, 1, bgColor) + trace(scene, i + 0.5, j + 0.5, 1, bgColor);
 			col = col / 4;
 		}
 		else
@@ -398,7 +434,7 @@ void RayTracer::tracePixel( int i, int j )
 		double x = double(i) / double(buffer_width);
 		double y = double(j) / double(buffer_height);
 
-		col = trace(scene, x, y);
+		col = trace(scene, x, y, bgColor);
 	}
 
 	// update each pixel

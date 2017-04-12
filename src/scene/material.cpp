@@ -5,16 +5,16 @@
 
 // Apply the phong model to this point on the surface of the object, returning
 // the color of that point.
-vec3f Material::shade( Scene *scene, const ray& r, const isect& i ) const
+vec3f Material::shade( Scene *scene, const ray& r, const isect& i, bool using_texture, vec3f texture ) const
 {
 	vec3f zero;
-	// sum of ambient
+	// sum of ambient 
 	vec3f sum1;
 	for (auto j = scene->beginLights(); j != scene->endLights(); ++j)
 	{
 		sum1 += prod(ka, (*j)->getAmbientColor(zero));
 	}
-
+	
 	// sum of lights
 	vec3f sum2;
 	vec3f isectpos = r.getPosition() + i.t*r.getDirection();
@@ -39,8 +39,10 @@ vec3f Material::shade( Scene *scene, const ray& r, const isect& i ) const
 		// vec3f shadowA = vec3f(1, 1, 1);
 		//std::cout << "current shadowA is " << shadowA << std::endl;
 		double distA = currlight->distanceAttenuation(isectpos);
-		sum2 += prod(shadowA, prod(currlight->getColor(isectpos), (NL * kd + VR * ks) * distA));
+		if (using_texture) sum2 += prod(shadowA, prod(currlight->getColor(isectpos), (NL * texture + VR * ks) * distA));
+		else sum2 += prod(shadowA, prod(currlight->getColor(isectpos), (NL * kd + VR * ks) * distA));
 	}
 
-	return sum1 + sum2;
+	return ke + sum1 + sum2;
 }
+ 

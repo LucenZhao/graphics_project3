@@ -31,7 +31,17 @@ public:
 
 	void saveImage(char *iname);
 
+	void loadBackground(char *iname);
+
+	void loadTexture(char *iname);
+
 	void setRayTracer(RayTracer *tracer);
+
+	unsigned char*	m_ucBitmapBG;
+	bool havingBG = false;
+
+	unsigned char* m_ucBitmapTexture;
+	bool havingTexture = false;
 
 private:
 	int m_nWindowWidth, m_nWindowHeight;

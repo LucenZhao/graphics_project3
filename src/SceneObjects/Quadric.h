@@ -9,13 +9,18 @@ class Quadric
 {
 public:
 	typedef vector<vec3f> Vertices;
+	/*
 	Quadric(Scene *scene, Material *mat, TransformNode *transform, Vertices v)
 		: MaterialSceneObject(scene, mat)
 	{
 		this->transform = transform;
 		vertices = v;
 	}
-
+	*/
+	Quadric(Scene *scene, Material *mat)
+		: MaterialSceneObject(scene, mat)
+	{
+	}
 	virtual bool intersectLocal(const ray& r, isect& i) const;
 	bool intersectFace(const ray& r, isect& i) const;
 	virtual bool hasBoundingBoxCapability() const { return true; }
@@ -27,7 +32,7 @@ public:
 		return localbounds;
 	}
 protected:
-	Vertices vertices;
+	//Vertices vertices;
 };
 
 #endif // __QUADRIC_H__
