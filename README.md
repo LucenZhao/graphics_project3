@@ -26,7 +26,7 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
     - [x]  (Zhaolucen) Add a menu option that lets you specify a background image to replace the environment's ambient color during the rendering.  That is, any ray that goes off into infinity behind the scene should return a color from the loaded image, instead of just black.  The background should appear as the backplane of the rendered image with suitable reflections and refractions to it.
 
-* [ ]  (Fengyee) Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.  
+* [ ] Find a good way to accelerate shadow attenuation.  Do you need to check against every object when casting the shadow ray?  This one is hard to demonstrate directly, so be prepared to explain in detail how you pulled it off.  
 
 * [ ] Deal with overlapping objects intelligently.  While the skeleton code handles materials with arbitrary indices of refraction, it assumes that objects don't intersect one another. It breaks down when objects intersect or are wholly contained inside other objects. Add support to the refraction code for detecting this and handling it in a more realistic fashion.  Note, however, that in the real world, objects can't coexist in the same place at the same time. You will have to make assumptions as to how to choose the index of refraction in the overlapping space.  Make those assumptions clear when demonstrating the results.
 
