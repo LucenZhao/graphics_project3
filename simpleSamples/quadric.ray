@@ -1,0 +1,29 @@
+SBT-raytracer 1.0
+
+camera
+{
+	position = (1,1,-20);
+	viewdir = (0,0,1);
+	aspectratio = 1;
+	updir = (0,1,0);
+}
+
+directional_light
+{
+	direction = (-1, 0, 0);
+	colour = (1.0, 1.0, 1.0);
+}
+
+directional_light {
+	direction = (1,0,0);
+	colour = (0.5,0.5,0.5);
+}
+
+rotate(1,1,1,0,
+quadric{ 
+	material = { 
+		diffuse = (0.8,0.3,0.1);
+		specular = (0.9,0.4,0.0);
+		shininess = 1.0;
+	}
+})

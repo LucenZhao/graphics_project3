@@ -37,11 +37,11 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
 * [x]  (Fengyee) Implement more versatile lighting controls, such as the Warn model described in Foley 16.1.5. This allows you to do things like control the shape of the projected light.
 
-    - [ ] Implement bump mapping (Watt 8.4; Foley, et al. 16.3.3).
+    - [ ]  (ZhaoLucen) Implement bump mapping (Watt 8.4; Foley, et al. 16.3.3).
 
 * [ ] Implement solid textures or some other form of procedural texture mapping, as described in Foley, et al., 20.1.2 and 20.8.3. Solid textures are a way to easily generate a semi-random texture like wood grain or marble.
 
-* [ ] Add some new types of geometry to the ray tracer. Consider implementing torii or general quadrics. Many other objects are possible here.
+* [ ]   (ZhaoLucen) Add some new types of geometry to the ray tracer. Consider implementing torii or general quadrics. Many other objects are possible here.
 
     - [x]  (Fengyee) Add support for height-fields. Click here for a discussion on what they are and how they can be generated.  
 

@@ -19,6 +19,7 @@
 #include "../SceneObjects/Cone.h"
 #include "../SceneObjects/Cylinder.h"
 #include "../SceneObjects/Sphere.h"
+#include "../SceneObjects/Quadric.h"
 #include "../SceneObjects/Square.h"
 #include "../scene/light.h"
 
@@ -325,6 +326,9 @@ static void processGeometry(string name, Obj *child, Scene *scene,
 		}
 		else if (name == "cylinder") {
 			obj = new Cylinder(scene, mat);
+		}
+		else if (name == "quadric") {
+			obj = new Quadric(scene, mat);
 		}
 		else if (name == "cone") {
 			double height = 1.0;
@@ -695,6 +699,7 @@ static void processObject(Obj *obj, Scene *scene, mmap& materials)
 		name == "trimesh" ||
 		name == "polymesh" ||
 		name == "metaball" ||
+		name == "quadric" ||
 		name == "height_field") { // polymesh is for backwards compatibility.
 		processGeometry(name, child, scene, materials, &scene->transformRoot);
 		//scene->add( geo );
