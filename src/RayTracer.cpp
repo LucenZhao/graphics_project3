@@ -146,11 +146,14 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 		vec3f I;
 		if (m_pUI->m_traceGlWindow->havingTexture)
 		{
-			I = m.shade(scene, r, i, true, texture);
+			if (m_pUI->m_traceGlWindow->bumpMapping)
+				I = m.shade(scene, r, i, true, true, texture);
+			else
+				I = m.shade(scene, r, i, false, true, texture);
 		}
 		else
 		{
-			I = m.shade(scene, r, i, false);
+			I = m.shade(scene, r, i, false, false);
 		}
 		vec3f ones(1.0, 1.0, 1.0);
 		vec3f ktInv = ones - m.kt;

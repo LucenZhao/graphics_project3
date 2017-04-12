@@ -5,11 +5,20 @@
 
 // Apply the phong model to this point on the surface of the object, returning
 // the color of that point.
-vec3f Material::shade( Scene *scene, const ray& r, const isect& i, bool using_texture, vec3f texture ) const
+vec3f Material::shade( Scene *scene, const ray& r, const isect& i, bool using_bump, bool using_texture, vec3f texture ) const
 {
 	vec3f zero;
 	// sum of ambient 
 	vec3f sum1;
+	double T;
+	double bump_value = (texture[0] + texture[1] + texture[2]) / 3;
+	if (using_texture && using_bump)
+	{
+		//cout << texture[0] << texture[1] << texture[2] << endl;
+		//cout << bump_value << endl;
+		T = i.t - i.t * 0.5 * (bump_value);
+	}
+	else T = i.t;
 	for (auto j = scene->beginLights(); j != scene->endLights(); ++j)
 	{
 		sum1 += prod(ka, (*j)->getAmbientColor(zero));
@@ -17,7 +26,7 @@ vec3f Material::shade( Scene *scene, const ray& r, const isect& i, bool using_te
 	
 	// sum of lights
 	vec3f sum2;
-	vec3f isectpos = r.getPosition() + i.t*r.getDirection();
+	vec3f isectpos = r.getPosition() + T*r.getDirection();
 	for (auto j = scene->beginLights(); j != scene->endLights(); ++j)
 	{
 		auto currlight = *j;

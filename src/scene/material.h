@@ -30,7 +30,7 @@ public:
               const vec3f& d, const vec3f& r, const vec3f& t, double sh, double in)
         : ke( e ), ka( a ), ks( s ), kd( d ), kr( r ), kt( t ), shininess( sh ), index( in ) {}
 
-	virtual vec3f shade( Scene *scene, const ray& r, const isect& i, bool using_texture, vec3f texture = vec3f(0.0,0.0,0.0) ) const;
+	virtual vec3f shade( Scene *scene, const ray& r, const isect& i, bool using_bump, bool using_texture, vec3f texture = vec3f(0.0,0.0,0.0) ) const;
 
     vec3f ke;                    // emissive
     vec3f ka;                    // ambient
