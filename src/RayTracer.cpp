@@ -148,9 +148,39 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 				}
 				else // distribution reflection on
 				{
+					vec3f ks = m.ks / (distRays * distRays);
+					vec4f refl_dir(reflected_direction[0], reflected_direction[1], reflected_direction[2], 1);
 
+					// rotation axises
+					vec3f axis1(-reflected_direction[2], 0, reflected_direction[0]);
+					vec3f axis2(0, 1, 0);
+
+					double x1 = -distSize / 2;
+					for (int i = 0; i < distRays; ++i)
+					{
+						mat4f rot1 = mat4f::rotate(axis1, x1);
+						double x2 = -distSize / 2;
+						for (int j = 0; j < distRays; ++j)
+						{
+							mat4f rot2 = mat4f::rotate(axis2, x2);
+							vec4f t = rot1 * (rot2 * refl_dir);
+							vec3f dir(t[0], t[1], t[2]);
+							if (t[3] != 0)
+								dir = dir / t[3];
+							ray nextRay(r2_position, dir);
+
+							// recursion
+							ray r2(r2_position, dir);
+							vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (ks[0] + ks[1] + ks[2]) / 3 * intensity, in);
+							I += prod(ks, next_I);
+
+							x2 += distStep;
+						}
+						x1 += distStep;
+					}
 				}
 			}
+
 			// transmissive
 			if (m.kt[0] > 0 && m.kt[1] > 0 && m.kt[2] > 0)
 			{
@@ -174,7 +204,33 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 						}
 						else // distribution refraction on
 						{
+							vec3f kt = m.kt / (distRays * distRays);
+							vec4f refr_dir(refract_direction[0], refract_direction[1], refract_direction[2], 1);
+							// rotate axises
+							vec3f axis1(-refract_direction[2], 0, refract_direction[0]);
+							vec3f axis2(0, 1, 0);
 
+							double x1 = -distSize / 2;
+							for (int i1 = 0; i1 < distRays; ++i1)
+							{
+								mat4f rot1 = mat4f::rotate(axis1, x1);
+								double x2 = -distSize / 2;
+								for (int i2 = 0; i2 < distRays; ++i2)
+								{
+									mat4f rot2 = mat4f::rotate(axis2, x2);
+									vec4f t = rot1 * (rot2 * refr_dir);
+									vec3f dir(t[0], t[1], t[2]);
+									if (t[3] != 0)
+										dir = dir / t[3];
+									ray r2(r2_position, dir);
+									vec3f next_I = traceRay(scene, r2, thresh, depth + 1, (kt[0] + kt[1] + kt[2]) / 3 * intensity, !in);
+
+									I += prod(kt, next_I);
+
+									x2 += distStep;
+								}
+								x1 += distStep;
+							}
 						}
 					}
 				}
@@ -289,8 +345,8 @@ void RayTracer::traceLines( int start, int stop )
 	if( stop > buffer_height )
 		stop = buffer_height;
 
-	distReflection = m_pUI->m_distReflSlider->value() > 0;
-	distRefraction = m_pUI->m_distRefrSlider->value() > 0;
+	distReflection = m_pUI->m_distReflButton->value();
+	distRefraction = m_pUI->m_distRefrButton->value();
 	distSize = m_pUI->m_distSizeSlider->value();
 	distRays = m_pUI->m_distRaysSlider->value();
 	distStep = distSize / (distRays - 1);

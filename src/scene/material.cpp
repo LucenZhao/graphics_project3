@@ -36,6 +36,7 @@ vec3f Material::shade( Scene *scene, const ray& r, const isect& i ) const
 		vec3f H = (L + V).normalize();
 
 		vec3f shadowA = currlight->shadowAttenuation(isectpos);
+		// vec3f shadowA = vec3f(1, 1, 1);
 		//std::cout << "current shadowA is " << shadowA << std::endl;
 		double distA = currlight->distanceAttenuation(isectpos);
 		sum2 += prod(shadowA, prod(currlight->getColor(isectpos), (NL * kd + VR * ks) * distA));

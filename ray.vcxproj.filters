@@ -40,10 +40,6 @@
       <UniqueIdentifier>{f7f7296b-7aa1-4a9d-b63f-b790e09bf172}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Header Files\scene.">
-      <UniqueIdentifier>{bad86107-ec2a-4412-953e-2aa6c944ad15}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl</Extensions>
-    </Filter>
     <Filter Include="Header Files\SceneObjects.">
       <UniqueIdentifier>{77da7083-e73c-48a1-9725-612c96ba2de5}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
@@ -51,6 +47,10 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{2a500cad-34e4-4544-a082-ff2e3169691d}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files\scene">
+      <UniqueIdentifier>{bad86107-ec2a-4412-953e-2aa6c944ad15}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +117,9 @@
     <ClCompile Include="src\SceneObjects\Quadric.cpp">
       <Filter>Source Files\SceneObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\SceneObjects\CSG.cpp">
+      <Filter>Source Files\SceneObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RayTracer.h">
@@ -141,19 +144,19 @@
       <Filter>Header Files\vecmath.</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\camera.h">
-      <Filter>Header Files\scene.</Filter>
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\light.h">
-      <Filter>Header Files\scene.</Filter>
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\material.h">
-      <Filter>Header Files\scene.</Filter>
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\ray.h">
-      <Filter>Header Files\scene.</Filter>
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\scene.h">
-      <Filter>Header Files\scene.</Filter>
+      <Filter>Header Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneObjects\Box.h">
       <Filter>Header Files\SceneObjects.</Filter>
@@ -174,6 +177,9 @@
       <Filter>Header Files\SceneObjects.</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneObjects\Quadric.h">
+      <Filter>Header Files\SceneObjects.</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneObjects\CSG.h">
       <Filter>Header Files\SceneObjects.</Filter>
     </ClInclude>
   </ItemGroup>

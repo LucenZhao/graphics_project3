@@ -62,7 +62,7 @@ Remember that you'll need to establish to our satisfaction that you've implement
 
     Theoretically, you could also invent new shading models. For instance, you could implement a less realistic model! Could you implement a shading model that produces something that looks like cel animation? Variable extra credit will be given for these "alternate" shading models. 
 
-* [ ] Implement CSG, constructive solid geometry. This extension allows you to create very interesting models. See page 108 of Glassner for some implementation suggestions.
+* [x] Implement CSG, constructive solid geometry. This extension allows you to create very interesting models. See page 108 of Glassner for some implementation suggestions.
 
     - [ ] Add a particle systems simulation and renderer (Foley 20.5, Watt 17.7).
 

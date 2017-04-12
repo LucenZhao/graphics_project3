@@ -194,6 +194,16 @@ void TraceUI::cb_softShadowButton(Fl_Widget *o, void*)
 	((TraceUI*)(o->user_data()))->m_is_enable_soft_shadow ^= true;
 }
 
+void TraceUI::cb_distReflButton(Fl_Widget *o, void*)
+{
+	((TraceUI*)(o->user_data()))->m_is_enable_dist_reflection ^= true;
+}
+
+void TraceUI::cb_distRefrButton(Fl_Widget *o, void*)
+{
+	((TraceUI*)(o->user_data()))->m_is_enable_dist_refraction ^= true;
+}
+
 void TraceUI::show()
 {
 	m_mainWindow->show();
@@ -235,6 +245,7 @@ bool TraceUI::getSoftShadow()
 {
 	return m_is_enable_soft_shadow;
 }
+
 
 // menu definition
 Fl_Menu_Item TraceUI::menuitems[] = {
@@ -327,29 +338,17 @@ TraceUI::TraceUI() {
 		m_adaptiveSlider->align(FL_ALIGN_RIGHT);
 		m_adaptiveSlider->callback(cb_adaptiveSlides);
 
-		m_distReflSlider = new Fl_Value_Slider(10, 155, 180, 20, "Dist Reflection");
-		m_distReflSlider->user_data((void*)(this));	// record self to be used by static callback functions
-		m_distReflSlider->type(FL_HOR_NICE_SLIDER);
-		m_distReflSlider->labelfont(FL_COURIER);
-		m_distReflSlider->labelsize(12);
-		m_distReflSlider->minimum(0);
-		m_distReflSlider->maximum(1);
-		m_distReflSlider->step(1);
-		m_distReflSlider->value(0);
-		m_distReflSlider->align(FL_ALIGN_RIGHT);
+		m_distReflButton = new Fl_Light_Button(10, 155, 180, 20, "Dist Reflection");
+		m_distReflButton->user_data((void*)(this));
+		m_distReflButton->value(0);
+		m_distReflButton->callback(cb_distReflButton);
 
-		m_distRefrSlider = new Fl_Value_Slider(10, 180, 180, 20, "Dist Refraction");
-		m_distRefrSlider->user_data((void*)(this));	// record self to be used by static callback functions
-		m_distRefrSlider->type(FL_HOR_NICE_SLIDER);
-		m_distRefrSlider->labelfont(FL_COURIER);
-		m_distRefrSlider->labelsize(12);
-		m_distRefrSlider->minimum(0);
-		m_distRefrSlider->maximum(1);
-		m_distRefrSlider->step(1);
-		m_distRefrSlider->value(0);
-		m_distRefrSlider->align(FL_ALIGN_RIGHT);
+		m_distRefrButton = new Fl_Light_Button(10, 180, 180, 20, "Dist Refraction");
+		m_distRefrButton->user_data((void*)(this));
+		m_distRefrButton->value(0);
+		m_distRefrButton->callback(cb_distRefrButton);
 
-		m_distRaysSlider = new Fl_Value_Slider(10, 205, 180, 20, "Dist Rays (n^2)");
+		m_distRaysSlider = new Fl_Value_Slider(10, 205, 180, 20, "Number of Dist Rays");
 		m_distRaysSlider->user_data((void*)(this));	// record self to be used by static callback functions
 		m_distRaysSlider->type(FL_HOR_NICE_SLIDER);
 		m_distRaysSlider->labelfont(FL_COURIER);

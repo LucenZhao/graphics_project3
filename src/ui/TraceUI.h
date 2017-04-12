@@ -32,8 +32,8 @@ public:
 	Fl_Slider*			m_supersamplingSlider;
 	Fl_Slider*			m_jitterSlider;
 	Fl_Slider*			m_adaptiveSlider;
-	Fl_Slider*			m_distReflSlider;
-	Fl_Slider*			m_distRefrSlider;
+	Fl_Button*			m_distReflButton;
+	Fl_Button*			m_distRefrButton;
 	Fl_Slider*			m_distSizeSlider;
 	Fl_Slider*			m_distRaysSlider;
 
@@ -65,6 +65,8 @@ private:
 	int			m_nJitter;
 	int			m_nAdaptiveDepth;
 	bool		m_is_enable_soft_shadow;
+	bool		m_is_enable_dist_reflection;
+	bool		m_is_enable_dist_refraction;
 
 
 // static class members
@@ -89,6 +91,8 @@ private:
 	static void cb_render(Fl_Widget* o, void* v);
 	static void cb_stop(Fl_Widget* o, void* v);
 	static void cb_softShadowButton(Fl_Widget *o, void*);
+	static void cb_distReflButton(Fl_Widget *o, void*);
+	static void cb_distRefrButton(Fl_Widget *o, void*);
 };
 
 #endif

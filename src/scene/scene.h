@@ -19,6 +19,7 @@ using namespace std;
 
 class Light;
 class Scene;
+extern class CSGNode;
 
 class SceneElement
 {
@@ -52,6 +53,8 @@ public:
 	// closest to the origin in tMin and the "t" value of the far intersection
 	// in tMax and return true, else return false.
 	bool intersect(const ray& r, double& tMin, double& tMax) const;
+
+	BoundingBox merge(const BoundingBox& other) const;
 };
 
 class TransformNode
@@ -260,7 +263,10 @@ public:
 		objects.push_back( obj );
 	}
 	void add( Light* light )
-	{ lights.push_back( light ); }
+	{ 
+		lights.push_back( light );
+	}
+	
 
 	bool intersect( const ray& r, isect& i ) const;
 	bool Scene::shadow_intersect(const ray& r, vec3f& shadow, double t) const;
@@ -272,6 +278,17 @@ public:
         
 	Camera *getCamera() { return &camera; }
 
+	void addCSGObject(Geometry* obj)
+	{
+		CSGObjectArray.push_back(obj);
+	}
+	void addCSGNode(CSGNode* node)
+	{
+		CSGNodeArray.push_back(node);
+	}
+
+	list<CSGNode*> CSGNodeArray;
+	list<Geometry*> CSGObjectArray;
 	
 
 private:

@@ -2,6 +2,7 @@
 
 #include "scene.h"
 #include "light.h"
+
 #include "../ui/TraceUI.h"
 extern TraceUI* traceUI;
 
@@ -73,6 +74,15 @@ bool BoundingBox::intersect(const ray& r, double& tMin, double& tMax) const
 	return true; // it made it past all 3 axes.
 }
 
+BoundingBox BoundingBox::merge(const BoundingBox& other) const {
+	BoundingBox ret;
+	ret = *this;
+	for (int i = 0; i < 3; i++) {
+		ret.min[i] = minimum(ret.min[i], other.min[i]);
+		ret.max[i] = maximum(ret.max[i], other.max[i]);
+	}
+	return ret;
+}
 
 bool Geometry::intersect(const ray&r, isect&i) const
 {
@@ -135,6 +145,14 @@ Scene::~Scene()
 
 	for (l = lights.begin(); l != lights.end(); ++l) {
 		delete (*l);
+	}
+
+	for (list<CSGNode*>::iterator k = CSGNodeArray.begin(); k != CSGNodeArray.end(); ++k) {
+		delete (*g);
+	}
+
+	for (g = CSGObjectArray.begin(); g != CSGObjectArray.end(); ++g) {
+		delete (*g);
 	}
 }
 

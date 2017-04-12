@@ -52,7 +52,7 @@ double PointLight::distanceAttenuation( const vec3f& P ) const
 	{
 		return 1.0;
 	}
-	return min<double>(1, 1.0 / (a + b * d + c * d * d));
+	return (min<double>(1, 1.0 / (a + b * d + c * d * d)));
 }
 
 vec3f PointLight::getColor( const vec3f& P ) const
@@ -66,7 +66,7 @@ vec3f PointLight::getDirection( const vec3f& P ) const
 	return (position - P).normalize();
 }
 
-vec3f PointLight::shadowAttenuationHelper(const vec3f& P, const ray& r, double threshold) const
+vec3f PointLight::shadowAttenuationHelper(const ray& r, double threshold) const
 {
 	vec3f shadow;
 
@@ -96,7 +96,7 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 					softlight_pos[2] = position[2] + softExtend * ((double)k / softExtend - 0.5);
 					ray r(P, (softlight_pos - P).normalize());
 					double threshold = (softlight_pos - P).length();
-					shadow += shadowAttenuationHelper(P, r, threshold);
+					shadow += shadowAttenuationHelper(r, threshold);
 				}
 			}
 		}
@@ -104,7 +104,8 @@ vec3f PointLight::shadowAttenuation(const vec3f& P) const
 	}
 	else
 	{
-		return shadowAttenuationHelper(P, ray(P, getDirection(P)), (position - P).length());
+		vec3f dir = (position - P).normalize();
+		return shadowAttenuationHelper(ray(P, dir), (position - P).length());
 	}
 }
 
@@ -143,7 +144,7 @@ vec3f SpotLight::getColor(const vec3f& P) const
 
 vec3f SpotLight::shadowAttenuation(const vec3f& P) const
 {
-	vec3f dir = getDirection(P);
+	vec3f dir = (position - P).normalize();
 	vec3f shadow;
 	if (scene->shadow_intersect(ray(P, dir), shadow, (position - P).length()))
 	{

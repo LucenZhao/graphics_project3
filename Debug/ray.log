@@ -1,3 +1,9 @@
-﻿  Sphere.cpp
+﻿  CSG.cpp
+c:\users\feng8\documents\github\graphics_project3\src\scene\scene.h(22): warning C4091: 'extern ': ignored on left of 'CSGNode' when no variable is declared
+  read.cpp
+c:\users\feng8\documents\github\graphics_project3\src\scene\scene.h(22): warning C4091: 'extern ': ignored on left of 'CSGNode' when no variable is declared
+c:\users\feng8\documents\github\graphics_project3\src\fileio\parse.h(180): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+c:\users\feng8\documents\github\graphics_project3\src\fileio\read.cpp(729): warning C4715: 'processCSGGeometry': not all control paths return a value
   ray.vcxproj -> C:\Users\feng8\Documents\GitHub\graphics_project3\.\Debug\ray.exe
   ray.vcxproj -> .\Debug/ray.pdb (Full PDB)
