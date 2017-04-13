@@ -9,12 +9,12 @@ camera {
 
 directional_light {
 	direction = (0, -1, 0);
-	colour = (1.0, 1.0, 1.0);
+	colour = (0.5, 0.3, 0.3);
 }
 
 directional_light {
-	direction = (0,1,0);
-	colour = (0.2,0.2,0.2);
+	direction = (0,1,1);
+	colour = (0.9,0.9,0.9);
 }
 
 

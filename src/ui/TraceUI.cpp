@@ -214,7 +214,11 @@ void TraceUI::cb_softShadowButton(Fl_Widget *o, void*)
 {
 	((TraceUI*)(o->user_data()))->m_is_enable_soft_shadow ^= true;
 }
-
+void TraceUI::cb_bumpMappingButton(Fl_Widget *o, void*)
+{
+	((TraceUI*)(o->user_data()))->m_bBumpMapping = ((Fl_Light_Button *)o)->value();
+	((TraceUI*)(o->user_data()))->m_traceGlWindow->bumpMapping = ((TraceUI*)(o->user_data()))->m_bBumpMapping;
+}
 void TraceUI::cb_distReflButton(Fl_Widget *o, void*)
 {
 	((TraceUI*)(o->user_data()))->m_is_enable_dist_reflection ^= true;
@@ -408,6 +412,11 @@ TraceUI::TraceUI() {
 		m_softShadowButton->user_data((void*)(this));
 		m_softShadowButton->value(0);
 		m_softShadowButton->callback(cb_softShadowButton);
+		
+		m_bumpMapping = new Fl_Light_Button(150, 280, 120, 20, "Bump Mapping");
+		m_bumpMapping->user_data((void*)(this));
+		m_bumpMapping->value(0);
+		m_bumpMapping->callback(cb_bumpMappingButton);
 
 		m_renderButton = new Fl_Button(270, 27, 70, 25, "&Render");
 		m_renderButton->user_data((void*)(this));

@@ -62,6 +62,8 @@ public:
             obj = other.obj;
             t = other.t;
             N = other.N;
+			posy = other.posy;
+			posx = other.posx;
 //            material = other.material ? new Material( *(other.material) ) : 0;
 			if( other.material )
             {
@@ -82,6 +84,7 @@ public:
     const SceneObject 	*obj;
     double t;
     vec3f N;
+	double posx, posy;
     Material *material;         // if this intersection has its own material
                                 // (as opposed to one in its associated object)
                                 // as in the case where the material was interpolated

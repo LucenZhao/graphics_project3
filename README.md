@@ -52,7 +52,7 @@ Remember that you'll need to establish to our satisfaction that you've implement
             + [ ] motion blur
             + [ ] glossy reflection
 
-- [ ] Add some higher-level geometry to the ray tracer, such as surfaces of revolution, extrusions, metaballs or blend surfaces.  You may have implemented one or more of these as a polygonal object in the modeler project.  For the Raytracer, be sure you are actually raytracing the surface as a mathematical construct, not just creating a polygonal representation of the object and tracing that.  Yes, this requires lots of complicated math, but the final results are definitely worth it (see Transparent Metaballs).  A really good tutorial on raytracing metaballs.
+- [x] Add some higher-level geometry to the ray tracer, such as surfaces of revolution, extrusions, metaballs or blend surfaces.  You may have implemented one or more of these as a polygonal object in the modeler project.  For the Raytracer, be sure you are actually raytracing the surface as a mathematical construct, not just creating a polygonal representation of the object and tracing that.  Yes, this requires lots of complicated math, but the final results are definitely worth it (see Transparent Metaballs).  A really good tutorial on raytracing metaballs.
 
 - [ ] Implement ray-intersection optimization by either implement the BSP Tree implemented or by implementing a different optimization method, such as hierarchical bounding volumes (See Glassner 6.4 and 6.5, Foley, et al., 15.10.2).
 

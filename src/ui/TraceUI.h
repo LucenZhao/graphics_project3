@@ -41,6 +41,7 @@ public:
 	Fl_Button*			m_stopButton;
 
 	Fl_Light_Button*	m_softShadowButton;
+	Fl_Light_Button*	m_bumpMapping;
 
 	TraceGLWindow*		m_traceGlWindow;
 
@@ -67,6 +68,7 @@ private:
 	bool		m_is_enable_soft_shadow;
 	bool		m_is_enable_dist_reflection;
 	bool		m_is_enable_dist_refraction;
+	bool		m_bBumpMapping;
 
 
 // static class members
@@ -93,6 +95,7 @@ private:
 	static void cb_render(Fl_Widget* o, void* v);
 	static void cb_stop(Fl_Widget* o, void* v);
 	static void cb_softShadowButton(Fl_Widget *o, void*);
+	static void cb_bumpMappingButton(Fl_Widget *o, void*);
 	static void cb_distReflButton(Fl_Widget *o, void*);
 	static void cb_distRefrButton(Fl_Widget *o, void*);
 };

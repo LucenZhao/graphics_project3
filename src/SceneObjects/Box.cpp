@@ -19,7 +19,9 @@ bool Box::intersectLocal( const ray& r, isect& i ) const
 	
 	vec3f p = r.getPosition();
 	vec3f d = r.getDirection();
-	
+	int coord1 = 0;
+	int coord2 = 0;
+	int coord = 0;
 	for (size_t j = 0; j < 3; j++)
 	{
 		if (d[j] == 0.0 && (p[j] < -0.5 || p[j] > 0.5)) return false;
@@ -36,10 +38,13 @@ bool Box::intersectLocal( const ray& r, isect& i ) const
 			t2 = (-0.5 - p[j]) / d[j];
 		}
 
-		if (t2 < T2) T2 = t2;
+		if (t2 < T2) {
+			T2 = t2; coord2 = j;
+		}
 
 		if (t1 > T1) {
 			T1 = t1;
+			coord1 = j;
 			i.N = vec3f(0.0, 0.0, 0.0);
 			if (d[j] >= 0.0) {
 				// Intersection with cap at z = 0.
@@ -53,9 +58,19 @@ bool Box::intersectLocal( const ray& r, isect& i ) const
 
 	}
 	
-	if (T1 >= RAY_EPSILON) i.t = T1;
-	else i.t = T2;
+	if (T1 >= RAY_EPSILON) {
+		i.t = T1; coord = coord1;
+	}
+	else {
+		i.t = T2; coord = coord2;
+	}
 	i.obj = this;
+	//i.pos = 0;
+	if (coord == 0) { i.posy = (p[1] + d[1] * i.t + 0.5) * 150; i.posx = (p[2] * d[2] * i.t + 0.5) * 150; }
+	if (coord == 1) { i.posy = (p[0] + d[0] * i.t + 0.5) * 150; i.posx = (p[2] * d[2] * i.t + 0.5) * 150; }
+	if (coord == 2) { i.posy = (p[1] + d[1] * i.t + 0.5) * 150; i.posx = (p[0] * d[0] * i.t + 0.5) * 150; }
+	//std::cout << i.pos << endl;
+	//std::cout << p[1] + d[1] * i.t << ' ' << p[0] + d[0] * i.t << ' ' << p[2] + d[2] * i.t << endl;
 	return true;
 }
 

@@ -42,7 +42,7 @@ public:
 
 	unsigned char* m_ucBitmapTexture;
 	bool havingTexture = false;
-	bool bumpMapping = true;
+	bool bumpMapping = false;
 
 private:
 	int m_nWindowWidth, m_nWindowHeight;

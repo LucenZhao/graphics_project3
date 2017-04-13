@@ -140,16 +140,25 @@ vec3f RayTracer::traceRay( Scene *scene, const ray& r,
 {
 	//printf("ray tracing");
 	isect i;
-
+	vec3f textureColor(0.0, 0.0, 0.0);
 	if( scene->intersect( r, i ) ) {
+		//cout << "checking texture" << endl;
 		const Material& m = i.getMaterial();
 		vec3f I;
 		if (m_pUI->m_traceGlWindow->havingTexture)
 		{
+			//cout << "texture getting" << endl;
+			//cout << int(i.pos * buffer_height) * 3 << endl;
+			if (i.posy < 0) i.posy = 0;
+			if (i.posx < 0) i.posx = 0;
+			textureColor[0] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[int(i.posy * 150 + i.posx) * 3] / 255;
+			textureColor[1] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[int(i.posy * 150 + i.posx) * 3 + 1] / 255;
+			textureColor[2] = (double)m_pUI->m_traceGlWindow->m_ucBitmapTexture[int(i.posy * 150 + i.posx) * 3 + 2] / 255;
+
 			if (m_pUI->m_traceGlWindow->bumpMapping)
-				I = m.shade(scene, r, i, true, true, texture);
+				I = m.shade(scene, r, i, true, true, textureColor);
 			else
-				I = m.shade(scene, r, i, false, true, texture);
+				I = m.shade(scene, r, i, false, true, textureColor);
 		}
 		else
 		{

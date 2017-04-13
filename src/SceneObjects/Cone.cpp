@@ -53,6 +53,9 @@ bool Cone::intersectBody( const ray& r, isect& i ) const
 		if( z >= 0.0 && z <= height ) {
 			// It's okay.
 			i.t = t1;
+			double larger_radius = (b_radius > t_radius) ? (b_radius) : (t_radius);
+			i.posy = P[2] * 150 / (height);
+			i.posx = (P[0] + larger_radius) * 150 / (larger_radius * 2);
             i.N = vec3f( P[0], P[1], 
               -(C*P[2]+(t_radius-b_radius)*t_radius/height)).normalize();
 
@@ -67,6 +70,9 @@ bool Cone::intersectBody( const ray& r, isect& i ) const
 	double z = P[2];
 	if( z >= 0.0 && z <= height ) {
 		i.t = t2;
+		double larger_radius = (b_radius > t_radius) ? (b_radius) : (t_radius);
+		i.posy = P[2] * 150 / (height);
+		i.posx = (P[0] + larger_radius) * 150 / (larger_radius * 2);
         i.N = vec3f( P[0], P[1], 
               -(C*P[2]+(t_radius-b_radius)*t_radius/height)).normalize();
 		// In case we are _inside_ the _uncapped_ cone, we need to flip the normal.
@@ -120,6 +126,8 @@ bool Cone::intersectCaps( const ray& r, isect& i ) const
 		vec3f p( r.at( t1 ) );
 		if( (p[0]*p[0] + p[1]*p[1]) <= r1 * r1 ) {
 			i.t = t1;
+			i.posy = (p[1] + r1) * 150 / (r1 * 2);
+			i.posx = (p[0] + r1) * 150 / (r1 * 2);
 			if( dz > 0.0 ) {
 				// Intersection with cap at z = 0.
 				i.N = vec3f( 0.0, 0.0, -1.0 );
@@ -133,6 +141,8 @@ bool Cone::intersectCaps( const ray& r, isect& i ) const
 	vec3f p( r.at( t2 ) );
 	if( (p[0]*p[0] + p[1]*p[1]) <= r2 * r2 ) {
 		i.t = t2;
+		i.posy = (p[1] + r1) * 150 / (r2 * 2);
+		i.posx = (p[0] + r1) * 150 / (r2 * 2);
 		if( dz > 0.0 ) {
 			// Intersection with interior of cap at z = 1.
 			i.N = vec3f( 0.0, 0.0, 1.0 );
